@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04.3
 
     steps:
       - name: Checkout Repository
@@ -23,7 +23,7 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx inspect --bootstrap
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_HUB_USERNAME }}/your-image-name:latest .
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:latest .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:latest
         env:
           DOCKER_CLI_AARCH64: "0"  # This is needed for multi-platform builds, set to "1" for ARM-based systems
