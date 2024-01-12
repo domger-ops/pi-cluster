@@ -1,4 +1,4 @@
-### Raspberry Pi 4 Home Server 
+### Raspberry Pi 4 Home Lab 
 update: jan12.23
 
 **Objective:**
@@ -14,11 +14,15 @@ I am embarking on the creation of a home server using Raspberry Pi 4 with the pr
 - Configured a basic Apache server housing a privately accessible "hello-world" app.
 - Implemented and configured K3s, a lightweight Kubernetes distribution, for efficient container orchestration.
 - Developed a Go Lang web application and conducted thorough testing within the Kubernetes containers.
-- Created a Docker Image encapsulating the Go Lang application for streamlined deployment.
+- Created a Docker Image encapsulating the Golang application for streamlined deployment.
 - Deployed Docker Images to the containers, ensuring seamless application hosting.
 - Secured accessibility within a private network, bolstering privacy and control.
 - Established seamless connectivity to the corresponding GitHub repository, fostering version control and collaborative development.
 
 **Goals**
+- git-hub actions workflow
 - CI/CD (using Jenkins)
 - Publicly accessible (challenge: security)
+
+**TL/DR**
+raspberry pi home server for me to learn on and practice with
