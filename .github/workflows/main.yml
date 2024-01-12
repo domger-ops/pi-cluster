@@ -21,7 +21,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:v4
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:v4
+          VERSION="v${{ github.run_number }}"
+          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
 
 
