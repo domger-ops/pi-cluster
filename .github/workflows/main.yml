@@ -25,4 +25,10 @@ jobs:
           docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
 
+      - name: Deploy to Production
+        run: |
+          docker run -d --name pi-cluster-container-app  -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          VERSION: ${{ github.run_number }}
 
