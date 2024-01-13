@@ -18,16 +18,9 @@ jobs:
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-
+      
       - name: Build and Push Docker Image
         run: |
           VERSION="v${{ github.run_number }}"
-          docker buildx create --use
-          docker buildx build . --platform linux/amd64,linux/arm64 -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION --push
-
-      - name: Deploy to Production
-        run: |
-          docker run --name pi-cluster-container-app  -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
-        env:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          VERSION: "v${{ github.run_number }}"
+          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
