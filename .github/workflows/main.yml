@@ -30,5 +30,4 @@ jobs:
           docker run -d --name pi-cluster-container-app  -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          VERSION: ${{ github.run_number }}
-
+          VERSION: "v${{ github.run_number }}"
