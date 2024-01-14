@@ -13,15 +13,15 @@ I am embarking on the creation of a home tftp server using Raspberry Pi 4 with t
 - Successfully assembled the Pi Server, installed the Ubuntu Server OS, and established SSH connectivity.
 - Configured a basic Apache server housing a privately accessible "hello-world" app.
 - Implemented and configured K3s, a lightweight Kubernetes distribution, for efficient container orchestration.
-- Developed a Go Lang web application and conducted thorough testing within the Kubernetes containers.
+- Developed a Golang web application and conducted thorough testing within the Kubernetes containers.
 - Created a Docker Image encapsulating the Golang application for streamlined deployment.
 - Deployed Docker Images to the containers, ensuring seamless application hosting.
 - Secured accessibility within a private network, bolstering privacy and control.
 - Established seamless connectivity to the corresponding GitHub repository, fostering version control and collaborative development.
+- Implemented a GitHub Actions workflow to automate the building and versioning of Docker images upon pushing changes to the Git repository.
 
 **Goals**
-- git-hub actions workflow
-- CI/CD (using Jenkins)
+- CI/CD (using ArgoCD)
 - Publicly accessible (challenge: security)
 
 **TL/DR**
