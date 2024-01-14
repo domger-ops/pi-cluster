@@ -2,7 +2,7 @@
 update: jan 12.23
 
 **Objective:**
-I am embarking on the creation of a home server using Raspberry Pi 4 with the primary aim of gaining hands-on experience in networking services. The ultimate goal is to establish an accessible K3s cluster capable of running multiple applications encapsulated within Docker images. This project serves as a practical exploration of containerized environments and networking intricacies, enhancing my skills in the realm of distributed systems and cloud-native applications.
+I am embarking on the creation of a home tftp server using Raspberry Pi 4 with the primary aim of gaining hands-on experience in networking services. The ultimate goal is to establish an accessible K3s cluster capable of running multiple applications encapsulated within Docker images. This project serves as a practical exploration of containerized environments and networking intricacies, enhancing my skills in the realm of distributed systems and cloud-native applications.
 
 **Hardware:**
 - Raspberry Pi 4 Model B - 8GB
