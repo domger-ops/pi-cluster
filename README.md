@@ -23,6 +23,7 @@ I am embarking on the creation of a home tftp server using Raspberry Pi 4 with t
 **Goals**
 - CI/CD (using ArgoCD)
 - Publicly accessible (challenge: security)
+- Set up different types of k8s deployments (ex: blue/green, etc)
 
 **TL/DR**
 raspberry pi home server for me to learn on and practice with
