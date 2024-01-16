@@ -13,6 +13,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Clean Up Docker Buildx
+        run: docker buildx rm --all
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
