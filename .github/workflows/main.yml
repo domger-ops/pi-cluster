@@ -29,3 +29,11 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_ENV
           docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+
+          # version exported to file
+          echo "${VERSION}" > version.txt
+          echo "Exported version: ${VERSION}"
+
+# to capture version
+outputs:
+    version: ${{ steps.set-version.outputs.version }}

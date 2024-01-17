@@ -18,13 +18,23 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Print VERSION
-        run: echo "Using VERSION=${{ needs.build-and-push.outputs.version }}"
+        run: echo "VERSION=${{ needs.build-and-push.outputs.version }}"
+
+      - name: Download Version File
+        run: curl -O -L "https://raw.githubusercontent.com/domger-ops/pi-cluster/version.txt"
+
+      - name: Read Version from File
+        id: read-version
+        run: echo "::set-output name=version::$(cat version.txt)"
 
       - name: Deploy to Production
         run: |
-          VERSION="${{ needs.build-and-push.outputs.version }}"
-          echo "Using VERSION: $VERSION"  # Added this line for debugging
+          VERSION="${{ steps.read-version.outputs.version }}"
+          echo "Using VERSION: $VERSION"  # Debug statement
+
+          # Use the version for deployment
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           # Add your deployment steps here
           # Example: Run the specific version of the Docker image on your production environment
           docker run -d -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+
