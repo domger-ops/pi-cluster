@@ -18,7 +18,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Print VERSION
-        run: echo "VERSION=${{ needs.build-and-push.outputs.version }}"
+        run: echo "Using VERSION=${{ needs.build-and-push.outputs.version }}"
 
       - name: Deploy to Production
         run: |
@@ -28,4 +28,3 @@ jobs:
           # Add your deployment steps here
           # Example: Run the specific version of the Docker image on your production environment
           docker run -d -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
-
