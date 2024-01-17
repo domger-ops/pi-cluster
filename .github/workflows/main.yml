@@ -22,13 +22,10 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
       
-      - name: Build Docker Image
-        id: set-version  # Assign an ID to the step
+      - name: Build and Push Docker Image
+        id: set-version
         run: |
           VERSION="v${{ github.run_number }}"
-          echo "version=${VERSION}" >> $GITHUB_ENV
+          docker build . --platform linux/amd64,linux/arm64 -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
-
-      - name: Push Docker Image
-        run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
