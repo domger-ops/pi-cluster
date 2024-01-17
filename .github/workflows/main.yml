@@ -26,6 +26,6 @@ jobs:
         id: set-version
         run: |
           VERSION="v${{ github.run_number }}"
-          docker build . --platform linux/amd64,linux/arm64 -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
