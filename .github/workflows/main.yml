@@ -33,7 +33,3 @@ jobs:
           # version exported to file
           echo "${VERSION}" > version.txt
           echo "Exported version: ${VERSION}"
-
-# to capture version
-outputs:
-    version: ${{ steps.set-version.outputs.version }}
