@@ -17,26 +17,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Print VERSION
-        run: echo "VERSION=${{ needs.build-and-push.outputs.version }}"
-
       - name: Deploy to Production
         run: |
-          VERSION="${{ needs.build-and-push.outputs.version }}"
-          echo "Using VERSION: $VERSION"  # Debug statement
+          SHA="${{ github.sha }}"
+          echo "Using SHA: $SHA"  # Debug statement
 
-          # Add debugging output to verify the content of the GitHub repository
-          ls -al
-          ls -al .github
-          ls -al .github/workflows
-
-          # Attempt to download the version.txt file for further debugging
-          curl -O -L "https://raw.githubusercontent.com/domger-ops/pi-cluster/version.txt"
-
-          # Display the content of the downloaded version.txt file
-          cat version.txt
-
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
           # Add your deployment steps here
           # Example: Run the specific version of the Docker image on your production environment
-          docker run -d -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+          docker run -d -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
+

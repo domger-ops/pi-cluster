@@ -25,17 +25,8 @@ jobs:
       - name: Build and Push Docker Image
         id: set-version
         run: |
-          VERSION="v${{ github.run_number }}"
-          echo "version=${VERSION}" >> $GITHUB_ENV
-          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+          SHA="${{ github.sha }}"
+          echo "version=${SHA}" >> $GITHUB_ENV
+          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
 
-          # version exported to file
-          echo "${VERSION}" > version.txt
-          echo "Exported version: ${VERSION}"
-
-      - name: Print version.txt directory
-        run: echo version.txt directory: $(pwd)
-
-      - name: Print version.txt content
-        run: cat version.txt 
