@@ -21,7 +21,7 @@ jobs:
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-      
+
       - name: Build and Push Docker Image
         id: set-version
         run: |
@@ -33,3 +33,6 @@ jobs:
           # version exported to file
           echo "${VERSION}" > version.txt
           echo "Exported version: ${VERSION}"
+
+      - name: Print version.txt content
+        run: cat version.txt 
