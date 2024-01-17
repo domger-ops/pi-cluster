@@ -3,11 +3,14 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  # Adjust this branch to match your default branch name
+      - main
 
 jobs:
   build-and-push:
     runs-on: ubuntu-22.04
+
+    outputs:
+            version: ${{ steps.set-version.outputs.version }}
 
     steps:
       - name: Checkout Repository
@@ -19,8 +22,13 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
       
-      - name: Build and Push Docker Image
+      - name: Build Docker Image
+        id: set-version  # Assign an ID to the step
         run: |
           VERSION="v${{ github.run_number }}"
+          echo "version=${VERSION}" >> $GITHUB_ENV
           docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
+
+      - name: Push Docker Image
+        run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION

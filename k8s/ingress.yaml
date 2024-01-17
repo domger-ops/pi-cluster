@@ -14,4 +14,3 @@ spec:
             name: myapp-service
             port:
               number: 80
-
