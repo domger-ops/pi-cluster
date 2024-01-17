@@ -20,21 +20,23 @@ jobs:
       - name: Print VERSION
         run: echo "VERSION=${{ needs.build-and-push.outputs.version }}"
 
-      - name: Download Version File
-        run: curl -O -L "https://raw.githubusercontent.com/domger-ops/pi-cluster/version.txt"
-
-      - name: Read Version from File
-        id: read-version
-        run: echo "::set-output name=version::$(cat version.txt)"
-
       - name: Deploy to Production
         run: |
-          VERSION="${{ steps.read-version.outputs.version }}"
+          VERSION="${{ needs.build-and-push.outputs.version }}"
           echo "Using VERSION: $VERSION"  # Debug statement
 
-          # Use the version for deployment
+          # Add debugging output to verify the content of the GitHub repository
+          ls -al
+          ls -al .github
+          ls -al .github/workflows
+
+          # Attempt to download the version.txt file for further debugging
+          curl -O -L "https://raw.githubusercontent.com/domger-ops/pi-cluster/version.txt"
+
+          # Display the content of the downloaded version.txt file
+          cat version.txt
+
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           # Add your deployment steps here
           # Example: Run the specific version of the Docker image on your production environment
           docker run -d -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
-
