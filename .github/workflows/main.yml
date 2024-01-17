@@ -26,6 +26,6 @@ jobs:
         id: set-version
         run: |
           VERSION="v${{ github.run_number }}"
-          echo "version=${VERSION}" >> $GITHUB_ENV1
+          echo "version=${VERSION}" >> $GITHUB_ENV
           docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$VERSION
