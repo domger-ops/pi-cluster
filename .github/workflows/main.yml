@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     outputs:
-            version: ${{ steps.set-version.outputs.version }}
+      version: ${{ steps.set-version.outputs.version }}
 
     steps:
       - name: Checkout Repository
