@@ -35,7 +35,7 @@ jobs:
           echo "Exported version: ${VERSION}"
 
       - name: Print version.txt directory
-        run: echo "Version.txt directory: $(pwd)"
+        run: echo "version.txt directory: $(pwd)"
 
       - name: Print version.txt content
         run: cat version.txt 
