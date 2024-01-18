@@ -21,7 +21,7 @@ I am embarking on the creation of a home tftp server using Raspberry Pi 4 with t
 - Implemented a GitHub Actions workflow to automate the building and versioning of Docker images upon pushing changes to the Git repository.
 
 **Goals**
-- CD (using GitHub Actions)
+- CD (eventually)
 - Publicly accessible (challenge: security)
 - Set up different types of k8s deployments (ex: blue/green, etc)
 
