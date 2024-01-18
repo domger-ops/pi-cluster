@@ -22,7 +22,11 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: get pods
+          args: |
+            echo $KUBE_CONFIG | base64 --decode > kubeconfig.yaml
+            kubectl config view
+            kubectl config use-context default
+            kubectl get pods
 
       - name: Deploy to Production
         run: |
