@@ -17,6 +17,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Authorizatoin with config file
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: get pods
+
       - name: Deploy to Production
         run: |
           SHA="${{ github.sha }}"
@@ -26,7 +33,6 @@ jobs:
           # Add your deployment steps here
           # Example: Run the specific version of the Docker image on your production environment
           # Assuming kubectl is configured, apply your Kubernetes deployment manifest to the specified namespace
-          kubectl get pods
           kubectl apply -f k8s/deployment.yaml
           # Add any additional deployment steps specific to your environment
 
