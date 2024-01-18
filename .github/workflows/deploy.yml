@@ -26,6 +26,7 @@ jobs:
           # Add your deployment steps here
           # Example: Run the specific version of the Docker image on your production environment
           # Assuming kubectl is configured, apply your Kubernetes deployment manifest to the specified namespace
+          kubectl get pods
           kubectl apply -f k8s/deployment.yaml
           # Add any additional deployment steps specific to your environment
 
