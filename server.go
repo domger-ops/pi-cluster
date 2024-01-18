@@ -68,7 +68,7 @@ func version(w http.ResponseWriter, r *http.Request) {
 func greet(w http.ResponseWriter, r *http.Request) {
 	name := strings.Trim(r.URL.Path, "/")
 	if name == "" {
-		name = "Gopher"
+		name = "/your-name or /version if you want to feel special or get info"
 	}
 
 	fmt.Fprintf(w, "<!DOCTYPE html>\n")
