@@ -4,7 +4,12 @@ metadata:
   name: myapp-deployment
   namespace: myapp-namespace
 spec:
-  replicas: 3 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%  
+  replicas: 4 
   selector:
     matchLabels:
       app: myapp
@@ -25,4 +30,8 @@ spec:
           limits: 
             cpu: 100m
             memory: 250Mi
-
+        startupProbe:
+          tcpSocket:
+            port: 8181
+          initialDelaySeconds: 20
+          periodSeconds: 5
