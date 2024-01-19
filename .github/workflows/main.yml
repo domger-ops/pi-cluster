@@ -27,6 +27,16 @@ jobs:
         run: |
           SHA="${{ github.sha }}"
           echo "version=${SHA}" >> $GITHUB_ENV
-          docker build . -f dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
+
+          # Enable experimental CLI features
+          export DOCKER_CLI_ACI=1
+          export DOCKER_BUILDKIT=1
+
+          # Build multi-platform image
+          docker buildx create --use
+          docker buildx inspect --bootstrap
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA --push .
+
+          # Clean up buildx instance
+          docker buildx rm
 
