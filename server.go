@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"html"
+	"html/template"
 	"log"
 	"net/http"
+        "os"
 	"runtime/debug"
 	"strings"
 )
@@ -28,6 +29,7 @@ func main() {
 	http.HandleFunc("/version", version)
 	http.HandleFunc("/user-form", userForm)
 	http.HandleFunc("/process-form", processForm)
+        http.HandleFunc("/image-page", imagePage)
 
 	log.Printf("Server is listening on http://%s\n", *addr)
 
@@ -91,5 +93,12 @@ func imagePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<p>Look at you, You've said it all...</p>")
 	fmt.Fprintf(w, "<img src='/your-image-url' alt='Welcome Image'>")
 	fmt.Fprintf(w, "</body></html>")
+}
+func greet(w http.ResponseWriter, r *http.Request) {
+	        // Placeholder
+}
+
+func version(w http.ResponseWriter, r *http.Request) {
+		        // Placeholder
 }
 
