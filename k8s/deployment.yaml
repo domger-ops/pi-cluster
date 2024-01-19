@@ -4,7 +4,7 @@ metadata:
   name: myapp-deployment
   namespace: myapp-namespace
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: myapp
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: myapp-container
-        image: gerops/mytestrepo:135a6c4111a86108610baba12fdd0bbc23df5fb6
+        image: gerops/mytestrepo:cfe4d8abcb78eb60a32b90ada3d57c67b2fecda31
         ports:
         - containerPort: 8080
         resources: 
