@@ -27,5 +27,5 @@ jobs:
         run: |
           SHA="${{ github.sha }}"
           echo "version=${SHA}" >> $GITHUB_ENV
-          docker build . -f Dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
+          docker build ./ -f Dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mytestrepo:$SHA
