@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"html"
@@ -10,11 +11,16 @@ import (
 	"runtime/debug"
 	"strings"
 	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var (
-	greeting = flag.String("g", "Hello", "Greet with `greeting`")
-	addr     = flag.String("addr", "0.0.0.0:8080", "address to serve")
+	mongoURI  = flag.String("mongoURI", "mongodb://localhost:27017", "MongoDB URI")
+	greeting  = flag.String("g", "Hello", "Greet with `greeting`")
+	addr      = flag.String("addr", "0.0.0.0:8080", "address to serve")
+	collection *mongo.Collection
 )
 
 func usage() {
@@ -27,49 +33,63 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
-	http.HandleFunc("/", greet)
-	http.HandleFunc("/version", version)
+	// Connect to MongoDB.
+	client, err := mongo.NewClient(options.Client().ApplyURI(*mongoURI))
+	if err != nil {
+		log.Fatalf("Error creating MongoDB client: %v", err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := client.Connect(ctx); err != nil {
+		log.Fatalf("Error connecting to MongoDB: %v", err)
+	}
+	defer client.Disconnect(ctx)
+
+	// Select the database and collection.
+	database := client.Database("mydatabase")
+	collection = database.Collection("greetings")
+
+	// Register handlers.
+	http.HandleFunc("/", greetHandler)
+	http.HandleFunc("/version", versionHandler)
 
 	log.Printf("Server is listening on http://%s\n", *addr)
-
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
 
-func version(w http.ResponseWriter, r *http.Request) {
-	info, ok := debug.ReadBuildInfo()
-	if !ok {
-		http.Error(w, "no build information available", 500)
-		return
-	}
-
-	fmt.Fprintf(w, "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Version Information</title>\n<style>body {font-family: 'Arial', sans-serif;}</style>\n</head>\n<body>\n<pre>\n")
-	fmt.Fprintf(w, "%s\n", html.EscapeString(info.String()))
-	fmt.Fprintf(w, "</pre>\n</body>\n</html>")
-}
-
-func greet(w http.ResponseWriter, r *http.Request) {
+func greetHandler(w http.ResponseWriter, r *http.Request) {
 	name := strings.Trim(r.URL.Path, "/")
 	if name == "" {
 		name = "Guest"
 	}
 
-	greetMessage := getDynamicGreeting()
+	// Insert the greeting into MongoDB.
+	_, err := collection.InsertOne(context.Background(), map[string]interface{}{"name": name, "greeting": *greeting})
+	if err != nil {
+		log.Printf("Error inserting greeting into MongoDB: %v", err)
+	}
 
-	fmt.Fprintf(w, "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Personalized Greeting</title>\n<style>body {font-family: 'Arial', sans-serif; text-align: center; padding: 50px;}</style>\n</head>\n<body>\n")
-	fmt.Fprintf(w, "<h1>%s, %s!</h1>\n", greetMessage, html.EscapeString(name))
-	fmt.Fprintf(w, "<p>Feel free to explore and make yourself at home.</p>\n</body>\n</html>")
+	// Retrieve greetings from MongoDB.
+	var result map[string]interface{}
+	err = collection.FindOne(context.Background(), map[string]interface{}{"name": name}).Decode(&result)
+	if err != nil {
+		log.Printf("Error querying MongoDB: %v", err)
+	}
+
+	greeting := result["greeting"].(string)
+
+	fmt.Fprintf(w, "<!DOCTYPE html>\n")
+	fmt.Fprintf(w, "%s, %s!\n", greeting, html.EscapeString(name))
 }
 
-func getDynamicGreeting() string {
-	currentHour := time.Now().Hour()
-
-	switch {
-	case currentHour >= 5 && currentHour < 12:
-		return "Good morning"
-	case currentHour >= 12 && currentHour < 17:
-		return "Good afternoon"
-	default:
-		return "Good evening"
+func versionHandler(w http.ResponseWriter, r *http.Request) {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		http.Error(w, "no build information available", http.StatusInternalServerError)
+		return
 	}
+
+	fmt.Fprintf(w, "<!DOCTYPE html>\n<pre>\n")
+	fmt.Fprintf(w, "%s\n", html.EscapeString(info.String()))
 }
 
