@@ -20,5 +20,5 @@ RUN GOARCH=arm64 go build -o myapp
 EXPOSE 8080
 
 # Command to run the executable
-CMD ["./serverapp"]
+CMD ["./myapp"]
 
