@@ -19,11 +19,16 @@ I am embarking on the creation of a home tftp server using Raspberry Pi 4 with t
 - Secured accessibility within a private network, bolstering privacy and control.
 - Established seamless connectivity to the corresponding GitHub repository, fostering version control and collaborative development.
 - Implemented a GitHub Actions workflow to automate the building and versioning of Docker images upon pushing changes to the Git repository.
+- Utilizes rolling updates to ensure seamless updates of applications.
+
 
 **Goals**
-- CD (eventually...)
+- Database (PostgreSQL) ((IN PROGRESS)
+- CD (ArgoCD) ((IN PROGRESS)
+- AutoScaling (Horizontal)
+- LoadTesting (Locust)
 - Publicly accessible (challenge: security)
-- Set up different types of k8s deployments (ex: blue/green, etc)
+
 
 **TL/DR**
 raspberry pi home server for me to learn on and practice with
