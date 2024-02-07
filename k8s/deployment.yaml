@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: myapp-container
-        image: gerops/mytestrepo:dfb4d84addc1be9680016191b95bdb1716e93b90
+        image: gerops/mytestrepo:39032d42e164c9ee46e18b19e13fab9678a062d7
         ports:
         - containerPort: 8080
         resources: 
