@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: webapp-container
-        image: gerops/webapp01:firstbuild  # Replace with your Docker image
+        image: gerops/webapp01:newreq  # Replace with your Docker image
         ports:
         - containerPort: 5000
