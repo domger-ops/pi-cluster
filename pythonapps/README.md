@@ -1,7 +1,20 @@
-make hello world webapp
+>make hello world webapp
+- to run app in venv:
+    sudo -E /path/to/venv/bin/activate
+- Flask app Running locally on http://192.168.254.164:5000
 
-build docker image
+>build and push docker image
+- created dockerfile
 
-deploy to cluster
+>deploy to cluster in new namespace
+- ns = webapp 
+- fixed crashloopbackoff with requirements.txt
 
-create phone book webapp
+>create phonebook webapp
+~ docker compose for multiple resources/containers ie.database/etc
+
+>deploy phonebook app to the cluster instead of helloworld webapp
+
+
+>secure and link cloudk.ing to host ip
+steps to secure:
