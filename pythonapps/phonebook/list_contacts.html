@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Contacts</title>
+</head>
+<body>
+    <h1>List Contacts</h1>
+    <form action="/list_contacts" method="GET">
+        <label for="name_filter">Filter by Name:</label>
+        <input type="text" id="name_filter" name="name" value="{{ request.args.get('name', '') }}"><br><br>
+        <input type="submit" value="Filter">
+    </form>
+    <br>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+        </tr>
+        {% for contact in contacts %}
+        <tr>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.phone_number }}</td>
+            <td>{{ contact.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>

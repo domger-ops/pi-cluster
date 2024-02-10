@@ -1,4 +1,5 @@
 from sqlalchemy import CheckConstraint
+from phonebook import db
 import re
 
 class Contact(db.Model):
