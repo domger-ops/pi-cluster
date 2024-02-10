@@ -13,6 +13,11 @@
 >create phonebook webapp
 - create db w/ postgresql. 
 - to login> psql -U postgres
+- flask commands...
+    source venv/bin/activate
+    export FLASK_APP=phonebook.py
+    pip install flask-login
+    pip install psycopg2-binary
 ~ docker compose for multiple resources/containers ie.database/etc
 
 
