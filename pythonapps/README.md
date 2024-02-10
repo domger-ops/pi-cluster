@@ -11,7 +11,10 @@
 - fixed crashloopbackoff with requirements.txt
 
 >create phonebook webapp
+- create db w/ postgresql. 
+- to login> psql -U postgres
 ~ docker compose for multiple resources/containers ie.database/etc
+
 
 >deploy phonebook app to the cluster instead of helloworld webapp
 

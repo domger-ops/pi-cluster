@@ -1,37 +1,12 @@
-import sqlite3
-import json
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os
 
-# Connecting to DB
-conn = sqlite3.connect("contacts.db")
-cur = con.cursor()
+app = Flask(__name__)
+load_dotenv()
 
-# Data example
-example = {
-    "contacts": [
-        {
-            "name": "myName",
-            "phone": "555-5555"
-            "email": "thisPerson@email.com"
-        }
-    ]
-}
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@localhost/phonebook"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Check if table exists
-cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='contacts'")
-table_exists = cur.fetchone()
-
-if not table_exists:
-    # create table for db with columns name, phone and email
-    cur.execute('''CREATE TABLE contacts (
-                        "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-                        "name" TEXT NOT NULL,
-                        "phone" TEXT,
-                        "email" TEXT
-                    )''')
-
-    # Insert example data
-    for contact in example["contacts"]:
-        cur.execute('''INSERT INTO contacts (name, phone, email) VALUES (?, ?, ?)''',
-                    (contact["name"], contact["phone"], contact["email"]))
-
-    conn.commit()
+db = SQLAlchemy(app)
