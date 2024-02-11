@@ -18,6 +18,10 @@
     export FLASK_APP=phonebook.py
     pip install flask-login
     pip install psycopg2-binary
+- command to activate venv and run locally>
+    source venv/bin/activate
+    pip install -r requirements.txt
+    flask run --host=0.0.0.0
 ~ docker compose for multiple resources/containers ie.database/etc
 
 

@@ -10,7 +10,7 @@ load_dotenv()
 # Configure the database
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@localhost/phonebook"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a random secret key
+app.config['SECRET_KEY'] = 'SECRET_KEY'  # Change this to a random secret key
 db = SQLAlchemy(app)
 
 # Import models
