@@ -1,4 +1,4 @@
 pythonapps/hello/venv/
 pythonapps/phonebook/venv/
-secrets.py
+*secrets.py
 .env
