@@ -1,0 +1,4 @@
+.flaskenv
+venv/
+secrets.py
+.env
