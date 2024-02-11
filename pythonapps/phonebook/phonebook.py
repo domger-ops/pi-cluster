@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'SECRET_KEY'  # Change this to a random secret key
 db = SQLAlchemy(app)
 
 # Import models
-import models
+import models  # Importing models module where User and Contact models are defined
 
 # Flask-Login configuration
 login_manager = LoginManager()
@@ -22,7 +22,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return models.User.query.get(int(user_id))
+    return models.User.query.get(int(user_id))  # Changed to models.User
 
 # Define User model
 class User(UserMixin, db.Model):
@@ -31,7 +31,17 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
-db.create_all()
+# Define Contact model - added this block
+class Contact(db.Model):
+    __tablename__ = 'contacts'  # Match the name of your PostgreSQL table
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    phone_number = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+
+# Moved db.create_all() inside if __name__ == "__main__": block
+if __name__ == "__main__":
+    db.create_all()  # Create database tables if they don't exist
 
 # Define a route for the root endpoint
 @app.route('/')
@@ -66,7 +76,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = User.query.filter_by(username=username, password=password).first()  # Query the "user" table
+        user = models.User.query.filter_by(username=username, password=password).first()  # Changed to models.User
         if user:
             login_user(user)
             return redirect(url_for('list_contacts'))
