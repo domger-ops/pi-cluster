@@ -26,10 +26,12 @@ def load_user(user_id):
 
 # Define User model
 class User(UserMixin, db.Model):
-    __tablename__ = 'phonebook'  # Match the name of your PostgreSQL table
+    __tablename__ = 'phonebook_user'  # Match the name of your PostgreSQL table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+
+db.create_all()
 
 # Define a route for the root endpoint
 @app.route('/')
