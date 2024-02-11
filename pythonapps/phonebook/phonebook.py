@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask.cli import FlaskGroup
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from dotenv import load_dotenv
 import os
@@ -29,7 +30,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'phonebook_user'  # Match the name of your PostgreSQL table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(100), nullable=False) 
 
 # Define Contact model - added this block
 class Contact(db.Model):
@@ -37,11 +38,16 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)    
 
-# Moved db.create_all() inside if __name__ == "__main__": block
-if __name__ == "__main__":
-    db.create_all()  # Create database tables if they don't exist
+# Define a custom command to initialize the database schema
+cli = FlaskGroup(app)
+
+@cli.command('init-db')
+def init_db():
+    with app.app_context():
+        db.create_all()
+        print('Database schema initialized successfully.')
 
 # Define a route for the root endpoint
 @app.route('/')
@@ -52,7 +58,7 @@ def index():
 @app.route('/add_contact', methods=['POST'])
 def add_contact():
     data = request.get_json()
-    new_contact = models.Contact(name=data['name'], phone_number=data['phone_number'], email=data['email'])
+    new_contact = models.Contact(name=data['name'], phone_number=data['phone_number'], email=data['email'])       
     db.session.add(new_contact)
     db.session.commit()
     return jsonify({'message': 'Contact added successfully'}), 201
@@ -76,12 +82,12 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = models.User.query.filter_by(username=username, password=password).first()  # Changed to models.User
+        user = models.User.query.filter_by(username=username, password=password).first()  # Changed to models.User        
         if user:
             login_user(user)
-            return redirect(url_for('list_contacts'))
+            return redirect(url_for('list_contacts'))    
         else:
-            return 'Invalid username or password'
+            return 'Invalid username or password'        
     else:
         return render_template('login.html')
 
@@ -92,6 +98,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-if __name__ == "__main__":
-    # Run the Flask app on port 5000
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    cli()  # Run the custom CLI commands
+
