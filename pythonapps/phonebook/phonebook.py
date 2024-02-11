@@ -26,6 +26,7 @@ def load_user(user_id):
 
 # Define User model
 class User(UserMixin, db.Model):
+    __tablename__ = 'phonebook_user'  # Match the name of your PostgreSQL table
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
@@ -63,7 +64,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = User.query.filter_by(username=username, password=password).first()
+        user = User.query.filter_by(username=username, password=password).first()  # Query the "user" table
         if user:
             login_user(user)
             return redirect(url_for('list_contacts'))
